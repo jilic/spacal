@@ -1,0 +1,39 @@
+########################################
+#
+
+# the beam is 20 cm from the calo
+
+
+/SPc/setRun 1
+#
+/SPc/histo/event true
+/SPc/histo/pp true
+/SPc/histo/lost false
+#
+
+#/score/create/cylinderMesh cilMesh_1
+#
+#/score/mesh/cylinderSize 4. 5. cm
+#/score/mesh/translate/xyz 0. 0. -6. cm
+#/score/mesh/rotate/rotateX 0.5 deg
+#/score/mesh/nBin 20 1 1
+#
+#/score/quantity/energyDeposit eDep
+#
+#/score/close
+#
+#/score/list
+#
+/gps/pos/type Point
+/gps/ang/type iso
+/gps/ang/maxtheta 3.2 mrad
+/gps/ang/rot1 -1 0 0
+/gps/ang/rot2 0 1 0
+#
+
+/run/initialize
+
+/run/beamOn 100
+
+#/score/drawProjection cilMesh_1 eDep
+#/score/dumpQuantityToFile cilMesh_1 eDep eDep_cyl.txt

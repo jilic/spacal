@@ -111,7 +111,7 @@ void DetectorConstruction::SetDefaults()
 	// -----PMTs 
 	fNx = fNy =0;
 	fD_mtl 	=0.0635*cm; // pmt's tickness
-	pmtZ 	=10*cm;       //0.0635*cm 
+	pmtZ 	= emCaloLength + fD_mtl; 
 	
 	fUpdated=true;
 
@@ -308,7 +308,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructDetector()
 	//------------------------------
 	//Magnetic Field
 	//------------------------------
-	//ConstructField(); 
+	ConstructField(); 
 
 	// Visualization attributes
 	SetVisibilityAttributes();
@@ -497,7 +497,7 @@ void DetectorConstruction::UpdateGeometry(){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void DetectorConstruction::ConstructTubesPARAM()
 {
-	//dimensions
+	. Set Bz=0 if you want to switch it off or comment //dimensions
 	G4double innerR = 0.0*mm;
 	G4double halfEmCaloSizeZ = emCaloLength/2;
 
@@ -768,7 +768,12 @@ void DetectorConstruction::PlaceTubes(){
 void DetectorConstruction::ConstructPMTs()
 {
 	// Build PMTs
-	G4double halfSide = 0.48*cm;
+	G4double halfSide;
+	if(fNx==0){
+		halfSide = emCaloWidth/2; //any value different from 0 will work. 
+	}else {
+		halfSide = emCaloWidth/(fNx*2);
+	}
 	G4double height_pmt = fD_mtl/2.; //this is actually half height
 
 	pmtSolid = new G4Box("sPmt",halfSide,halfSide,height_pmt);
@@ -785,13 +790,13 @@ void DetectorConstruction::ConstructPMTs()
 			"lPhotocath");
 
 	//place photocath inside pmt
-	new G4PVPlacement(0,									//no rotation
+	new G4PVPlacement(0,						//no rotation
 			G4ThreeVector(0,0,height_pmt/2),	//translation
-			photocathLogic,										//it's log volume
-			"pPhotocath",											//it's name
-			pmtLogic,													// mother volume
-			false,														//
-			0);																// copy no
+			photocathLogic,						//it's log volume
+			"pPhotocath",						//it's name
+			pmtLogic,							// mother volume
+			false,								//
+			0);									// copy no
 
 
 	//Arrange pmts
@@ -807,8 +812,8 @@ void DetectorConstruction::ConstructPMTs()
 	G4double dx =(halfSide)*2 ;
 	G4double dy = (halfSide)*2;
 	G4double x,y,z; 
-	G4double xmin = -emCaloWidth/2.0 + dx/2. + 0.4*mm;
-	G4double ymin = -emCaloWidth/2.0 + dy/2.+ 0.4*mm;
+	G4double xmin = -emCaloWidth/2.0 + dx/2.;
+	G4double ymin = -emCaloWidth/2.0 + dy/2.;
 
 	z = pmtZ;
 
@@ -819,17 +824,17 @@ void DetectorConstruction::ConstructPMTs()
 		for(G4int i=1;i<=fNx;i++){
 			new G4PVPlacement(0,			//no rotation
 					G4ThreeVector(x,y,z),	//translation
-					pmtLogic,							//it's log volume
-					"pPmt",								//it's name
-					worldLogic,						// mother volume
-					false,								//
-					k);										// copy no
+					pmtLogic,				//it's log volume
+					"pPmt",					//it's name
+					worldLogic,				// mother volume
+					false,					//
+					k);						// copy no
 			k++;
 			y+=dy;
 		}
 		x+=dx;
 	}
-	
+
 	//-------------------------------------------------------
 	// Sensitive detector is not actually on the photocathode.
 	// ProcessHits gets done manually by the stepping action.
@@ -939,6 +944,8 @@ void DetectorConstruction::SetVisibilityAttributes()
 
 	//photocathLogic->SetVisAttributes(greenVisAtt);
 	photocathLogic->SetVisAttributes(ograyVisAtt);
+	
+	pmtLogic->SetVisAttributes(redVisAtt);
     
 
 }

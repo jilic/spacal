@@ -1,0 +1,99 @@
+
+**********
+*Geometry*
+**********
+- A tungsten block with a number of holes filled with the quartz tubes filled with a liquid scintillator.
+- The number of holes is automatically calculated from the value of pitch.
+- The quartz tubes and capillaries are placed using G4PVParametrization
+- A small gap between the tubes and tungsten block 
+- At the front of the calo block a thin Al mirror is placed
+- In front of the mirror there is a tungsten preshower (thickness 1X0). To remove preshower set it's material to be vacuum.
+- The PMTs are coded as well. They are square shaped. They can be switched on or off by setting the values 
+	of parameters fNx and fNy (if set to 0 PMTs will not be constructed). Dimensions and placement of PMTs have 
+	to be adjusted for different pitches so they do not cross the quartz tubes. 
+- Magnetic field of 3.8 T (0,0, 3.8T). Set Bz=0 if you want to switch it off or comment the call of ConstructField() in ConstructDetector() method 
+
+***********************************
+*Modifying the geometry at runtime*
+***********************************
+You can modify the geometry definition at runtime. This
+is accomplished through DetectorMessenger, a derived class of G4UImessenger.
+After changing geometry using commands from DetectorMessenger the /SPc/detector/update command must be issued to reconstruct the geometry
+with the new values. Right now there are a just 2 things you can change at the runtime
+	-dice5 or dice4 (dice5 is not coded yet!!!)
+	-pmtZDist
+I wrote this class just as a test, it works and if you need some geometry parameter to be changed at runtime 
+just add appropriate Set functions in DetectorMessenger and DetectorConstruction. 
+
+
+************************
+*PMT sensitive detector*
+************************
+The PMT sensitive detector cannot be triggered like a normal sensitive detector
+because the sensitive volume does not allow photons to pass through it. Rather,
+it detects them in the OpBoundary process based on an efficiency set on the
+skin of the volume.
+
+*********************************
+*Scintillator sensitive detector*
+*********************************
+This one we need to measure energy deposited in the scintillator
+
+
+**********************
+*Modular Physics List*
+**********************
+Using a modular physics list is an easy way to organise the physics list into
+categories for easier maintenance. Here I used GeneralPhysics, EMPhysics and OpticalPhysics. 
+
+******
+*Beam*
+******
+I use GPS source. In the code you can choose between 3deg tilted beam and a parallel to the z axes of calo block. Look at PrimaryGeneratorAction.cc 
+Change energy of incident electrons using SetMonoEnergy(energy); 
+
+************************
+*Histograms and ntuples*
+************************
+
+Look at HistoManager, SPcEventAction and SPcSteppingAction classes. There are a number of things calculated during the runtime and they are 
+written in a few ntuples. To chose the name of the output root file and what is going to be written in it, in your macro add something as following:
+
+#
+/SPc/histo/name test1
+/SPc/histo/event true
+/SPc/histo/pp true
+/SPc/histo/lost false
+#
+
+Here the output root file will be test.root, the event ntuple will be written, pp (primary particle) ntuple will be written, but information about 
+particles exiting the calo block (lost) will not.
+
+******
+*Run*
+*****
+
+I have added an option to choose the run number. In your macro add a line:
+
+/SPc/setRun someInt
+
+It comes handy when you have to submit a number of jobs to run on condor.
+
+*****************
+*Optical Photons*
+*****************
+
+If you are looking at the things such as energy deposition in tungsten, X0 or Moliere, tracking optical photons increases the running time immensely 
+(for 1MeV deposited in the scintillator 11500 optical photons is produced).In this case the best is to kill the optical photons as soon as they are 
+produced. You will still have information how many of them has been produced per event. To kill the optical photons go to SPcStackingAction.cc and 
+change the value of G4ClassificationOfNewTrack that is returned by ClassifyNewTrack. 
+
+***************************************
+*Optical Photons at optical boundaries*
+***************************************
+
+If you want to track optical photons and extract information about processes at the optical boundaries in SPcSteppingAction.cc set the value of parameter 
+"scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation photons.
+
+
+

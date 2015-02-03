@@ -497,7 +497,6 @@ void DetectorConstruction::UpdateGeometry(){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void DetectorConstruction::ConstructTubesPARAM()
 {
-	. Set Bz=0 if you want to switch it off or comment //dimensions
 	G4double innerR = 0.0*mm;
 	G4double halfEmCaloSizeZ = emCaloLength/2;
 

@@ -1,0 +1,4 @@
+/vis/disable
+/SPc/setRun 10
+/run/initialize
+/run/beamOn 1 

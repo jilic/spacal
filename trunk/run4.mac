@@ -1,0 +1,22 @@
+########################################
+#
+# define cylindrical scoring mesh
+#
+/score/create/cylinderMesh boxMesh_1
+#
+/score/mesh/cylinderSize 2.5 10. cm
+#/score/mesh/translate/xyz 0.1 0.1 0.0 cm
+#/score/mesh/nBin 30 30 30
+/score/mesh/nBin 10 1 1
+#
+/score/quantity/energyDeposit eDep
+#
+/score/close
+#
+/score/list
+#
+/run/beamOn 100
+#
+/score/drawProjection boxMesh_1 eDep
+########################################
+#

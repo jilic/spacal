@@ -1,0 +1,21 @@
+########################################
+#
+#
+/vis/disable
+
+/SPc/setRun 1
+/SPc/histo/name lala
+/SPc/histo/event true
+/SPc/histo/pp false
+/SPc/histo/lost true
+
+
+
+/run/initialize
+
+
+
+
+/run/beamOn 1 
+
+

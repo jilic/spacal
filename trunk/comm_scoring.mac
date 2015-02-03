@@ -1,0 +1,46 @@
+
+/SPc/histo/name scoreTest
+/SPc/histo/event true
+/SPc/histo/pp true
+/SPc/histo/lost false
+
+
+########################################
+#
+# define scoring mesh
+#
+/vis/disable
+/score/create/boxMesh boxMesh_1
+#
+/score/mesh/boxSize 2.5 2.5 5. cm
+/score/mesh/translate/xyz 0. 0. -5. cm
+/score/mesh/nBin 25 25 1
+#
+/score/quantity/energyDeposit eDep
+#
+/score/close
+#
+/score/list
+#
+########################################
+########################################
+#
+/SPc/setRun 1
+/run/initialize
+/run/beamOn 1 
+
+########################################
+########################################
+#
+# drawing projections
+#
+#/score/drawProjection boxMesh_1 eDep
+#
+########################################
+########################################
+#
+# Dump scores to a file
+#
+/score/dumpQuantityToFile boxMesh_1 eDep eDep_box.txt
+#
+

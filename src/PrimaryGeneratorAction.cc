@@ -53,24 +53,24 @@ G4VPrimaryGenerator* PrimaryGeneratorAction::InitializeGPS()
 	G4SPSPosDistribution *posDist = gps->GetCurrentSource()->GetPosDist();
 	
 	//**pod uglom od 3deg u odnosu na osu calo bloka
-	//double beta =3.0*pi/180.0;
-    //G4double positionZ = -200.0*mm;	
-    //G4double positionY = -200.0*std::tan(beta);
-	//posDist->SetCentreCoords(G4ThreeVector(0.0*mm,positionY,positionZ));
+	double beta =3.0*pi/180.0;
+    G4double positionZ = -200.0*mm;	
+    G4double positionY = -200.0*std::tan(beta);
+	posDist->SetCentreCoords(G4ThreeVector(0.0*mm,positionY,positionZ));
 	//set direction
-	//G4SPSAngDistribution *angDist = gps->GetCurrentSource()->GetAngDist();
-	//angDist->SetParticleMomentumDirection( G4ThreeVector(0., std::tan(beta), 1.) );
+	G4SPSAngDistribution *angDist = gps->GetCurrentSource()->GetAngDist();
+	angDist->SetParticleMomentumDirection( G4ThreeVector(0., std::tan(beta), 1.) );
 	
 	//****
 	
 	//paralelno osi calo bloka
-    G4double positionZ = -200.0*mm;	
-    G4double positionY = 0.0*mm;	
-    G4double positionX = 0.0*mm;	
-	posDist->SetCentreCoords(G4ThreeVector(0.0*mm,0.0*mm,positionZ));
+    //G4double positionZ = -200.0*mm;	
+    //G4double positionY = 0.0*mm;	
+    //G4double positionX = 0.0*mm;	
+	//posDist->SetCentreCoords(G4ThreeVector(0.0*mm,0.0*mm,positionZ));
 	//// set direction
-	G4SPSAngDistribution *angDist = gps->GetCurrentSource()->GetAngDist();
-	angDist->SetParticleMomentumDirection( G4ThreeVector(0., 0, 1.) );
+	//G4SPSAngDistribution *angDist = gps->GetCurrentSource()->GetAngDist();
+	//angDist->SetParticleMomentumDirection( G4ThreeVector(0., 0, 1.) );
 
 	//****
 

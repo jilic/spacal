@@ -1,7 +1,7 @@
-#summary One-sentence summary of this page.
+#summary Building the code on lxplus
 
 = Introduction =
-#Building the code on lxplus
+
 This is the procedure for compiling and running Geant4 spacal code on lxplus machines with 64-bit SLC6.
 
 = Details =

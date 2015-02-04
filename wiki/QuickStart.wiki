@@ -6,9 +6,9 @@ This is the procedure for compiling and running Geant4 spacal code on lxplus mac
 
 = Details =
 1) All the necessary libraries and compiler versions are already installed on lxplus machines running 64-bit SLC6, thus after logging on, like this:
-
-> ssh lxplus6.cern.ch
-
+{{{
+ssh lxplus6.cern.ch
+}}}
 you just need to source the following scripts and to set the following variables to setup an appropriate environment:
 <code language="bash">
 export SCRAM_ARCH=x86_64-slc6-gcc46
@@ -21,10 +21,10 @@ You can also put those commands in a script and launch the script on startup (i.
 
 
 2) make a dir where you want to put the code, say G4_spacal
-
-> mkdir G4_spacal
-> cd G4_spacal
-
+{{{
+ mkdir G4_spacal
+cd G4_spacal
+}}}
 3)get the code
 
 >svn checkout http://spacal.googlecode.com/svn/trunk/ spacalCode

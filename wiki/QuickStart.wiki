@@ -14,7 +14,8 @@ you just need to source the following scripts and to set the following variables
    export SCRAM_ARCH=x86_64-slc6-gcc46
    source /afs/cern.ch/sw/lcg/contrib/gcc/4.6/x86_64-slc6/setup.sh
    source /afs/cern.ch/sw/lcg/external/geant4/9.6.p03/x86_64-slc6-gcc46-opt/CMake-setup.sh
-   export CXX=<nowiki>``which g++</nowiki>``; export CC=`which gcc`
+   export CXX=``which g++``
+   export CC=``which gcc``
 </code>
 
 You can also put those commands in a script and launch the script on startup (i.e. calling it in .bashrc)

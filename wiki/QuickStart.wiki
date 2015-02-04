@@ -1,5 +1,5 @@
-#summary One-sentence summary of this page.
-Geting and building the code (lxplus)
+ Building the code on lxplus
+
 = Introduction =
 
 This is the procedure for compiling and running Geant4 spacal code on lxplus machines with 64-bit SLC6.
@@ -41,14 +41,14 @@ this will download the code and place it in a dir *spacalCode*
 5) build using cmake
 > cmake -DGeant4_DIR=/afs/cern.ch/sw/lcg/external/geant4/9.6.p03/x86_64-slc6-gcc46-opt/lib64/Geant4-9.6.3 ../../spacalCode
 CMake will now run to configure the build and generate Makefiles
------
+
 Note1: If you do not want to type this long path,  in your .bashrc  set a variable, say g4Dir:
 
 export g4Dir="/afs/cern.ch/sw/lcg/external/geant4/9.6.p03/x86_64-slc6-gcc46-opt/lib64/Geant4-9.6.3"
 
 than you can run cake as:
 > cmake -DGeant4_DIR=$g4Dir /path_to/your_source_code/
------
+
 
 6) When cmake finishes we can now build by simply running make:
 

@@ -164,7 +164,8 @@ change the value of G4ClassificationOfNewTrack that is returned by ClassifyNewTr
 ***************************************
 
 If you want to track optical photons and extract information about processes at the optical boundaries in SPcSteppingAction.cc set the value of parameter 
-"scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation photons (and Cherenkov as well if you want to see what is happening with them).
+"scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation 
+photons (and Cherenkov as well if you want to see what is happening with them).
 
 
 

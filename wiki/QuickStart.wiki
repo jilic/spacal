@@ -9,6 +9,8 @@ This is the procedure for compiling and running Geant4 spacal code on lxplus mac
 
 > ssh lxplus6.cern.ch
 
+export PS1='\[\e[31;1m\][ \[\e[32;1m\]\h.\u \[\e[31;1m\]\W ]>\[\e[m\] '
+
 you just need to source the following scripts and to set the following variables to setup an appropriate environment:
 <code language="sh">
 export SCRAM_ARCH=x86_64-slc6-gcc46

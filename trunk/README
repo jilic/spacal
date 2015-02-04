@@ -167,5 +167,13 @@ If you want to track optical photons and extract information about processes at 
 "scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation 
 photons (and Cherenkov as well if you want to see what is happening with them).
 
+**********************************************
+*Measuring energy deposited in the calo-block*
+**********************************************
 
+Switch off tracking of the optical photons (to spead up the simulation).
+Use Geant's comand based scoring:
+	- in your macro create a scoring mesh (can be a cilinder or a box). 
+	- a cilinder is good for Moliere's radius
+	- see comm_scoring.mac macro for more details 
 

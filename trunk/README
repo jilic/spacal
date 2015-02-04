@@ -47,7 +47,7 @@ Note1: If you do not want to type this long path,  in your .bashrc  set a variab
 
 export g4Dir="/afs/cern.ch/sw/lcg/external/geant4/9.6.p03/x86_64-slc6-gcc46-opt/lib64/Geant4-9.6.3"
 
-than you can run cake as:
+than you can run cmake as:
 > cmake -DGeant4_DIR=$g4Dir /path_to/your_source_code/
 -----
 
@@ -137,7 +137,7 @@ written in a few ntuples. To chose the name of the output root file and what is 
 /SPc/histo/lost false
 #
 
-Here the output root file will be test.root, the event ntuple will be written, pp (primary particle) ntuple will be written, but information about 
+Here the output root file will be test1.root, the event ntuple will be written, pp (primary particle) ntuple will be written, but information about 
 particles exiting the calo block (lost) will not.
 
 ******
@@ -155,7 +155,7 @@ It comes handy when you have to submit a number of jobs to run on condor.
 *****************
 
 If you are looking at the things such as energy deposition in tungsten, X0 or Moliere, tracking optical photons increases the running time immensely 
-(for 1MeV deposited in the scintillator 11500 optical photons is produced).In this case the best is to kill the optical photons as soon as they are 
+(for 1 MeV deposited in the scintillator 11500 optical photons is produced). In this case the best is to kill the optical photons as soon as they are 
 produced. You will still have information how many of them has been produced per event. To kill the optical photons go to SPcStackingAction.cc and 
 change the value of G4ClassificationOfNewTrack that is returned by ClassifyNewTrack. 
 
@@ -164,7 +164,7 @@ change the value of G4ClassificationOfNewTrack that is returned by ClassifyNewTr
 ***************************************
 
 If you want to track optical photons and extract information about processes at the optical boundaries in SPcSteppingAction.cc set the value of parameter 
-"scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation photons.
+"scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation photons (and Cherenkov as well if you want to see what is happening with them).
 
 
 

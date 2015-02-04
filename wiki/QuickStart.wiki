@@ -22,7 +22,7 @@ You can also put those commands in a script and launch the script on startup (i.
 
 2) Make a dir where you want to put the code, say G4_spacal
 {{{
-    mkdir G4_spacal
+   mkdir G4_spacal
    cd G4_spacal
 }}}
 

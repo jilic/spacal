@@ -1,6 +1,6 @@
 /* 
 	@author Jelena Ilic
-	@mail   jelena.ilic.s@gmail.com
+	@mail   jelenailic.sk@gmail.com
 	@date   Summer 2014
 */
 #ifndef SPcEMPhysics_h

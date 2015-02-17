@@ -67,7 +67,6 @@ where N is the number of core processors
 
 This will run the macro beam_circ.mac. 
 
-Note2) In the code (release 11) the tracking of optical photons is switched off.
 
 
 **********
@@ -145,9 +144,11 @@ categories for easier maintenance. Here I used GeneralPhysics, EMPhysics and Opt
 I use GPS source. In the code you can choose between 3deg tilted beam and a parallel to the z axes of calo block. Look at PrimaryGeneratorAction.cc 
 Change energy of incident electrons using:
 
-/gps/energy theEnergyOfIncindentPElectron GeV 	# it is important to give the energy in GeV because of the calculation of X0; In the code I have
-							 					# defined that X0 is calculated  as the value of z position (in mm) when the incindent particle
-							 					# is left with less that 1/e * incindentEnergy (in GeV!!!)
+# it is important to give the energy in GeV because of the calculation of X0; In the code I have
+# defined that X0 is calculated  as the value of z position (in mm) when the incindent particle
+# is left with less that 1/e * incindentEnergy (in GeV!!!)
+
+/gps/energy theEnergyOfIncindentPElectron GeV 	
 
 To calculate X0, you have to isue the command:
 
@@ -198,7 +199,7 @@ To switch on the tracking of the scintillation photons, in your macro, add the f
 *Optical Photons at optical boundaries*
 ***************************************
 
-If you want to track optical photons and extract information about processes at the optical boundaries in your macro add the command;
+If you want to extract information about processes at the optical boundaries in your macro add the command;
 
 /SPc/boundaryProc true # false is default 
 
@@ -207,7 +208,8 @@ Do not forget to add the command for tracking optical photons:
 
 /SPc/trackScintill true  
 
-and to remove pmts from the geometry
+If you want to look at the number of Scintill. photons arriving at the end of calo block 
+you also have to remove the pmts from the geometry:
 
 /SPc/detector/pmts false		
 

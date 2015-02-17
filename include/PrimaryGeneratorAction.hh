@@ -9,13 +9,12 @@
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 
-class DetectorConstruction;
 class G4VPrimaryGenerator;
  
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 	public:
-		PrimaryGeneratorAction( DetectorConstruction* );
+		PrimaryGeneratorAction( );
 
 		virtual ~PrimaryGeneratorAction();
 
@@ -25,7 +24,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
 		G4VPrimaryGenerator* InitializeGPS();
 		G4VPrimaryGenerator* gun;
-		DetectorConstruction* myDetector;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

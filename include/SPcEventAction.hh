@@ -15,13 +15,12 @@
 class G4Event;
 class SPcRunAction;
 class HistoManager;
-class DetectorConstruction;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 class SPcEventAction : public G4UserEventAction
 {
 	public:
 
-		SPcEventAction(SPcRunAction*, HistoManager*, DetectorConstruction* );
+		SPcEventAction(SPcRunAction*, HistoManager* );
 		virtual ~SPcEventAction();
 
 	public:
@@ -39,7 +38,6 @@ class SPcEventAction : public G4UserEventAction
 	private:
 		SPcRunAction*    fRunAct;
 		HistoManager* fHistoManager;
-		DetectorConstruction* fDetector;
 		SPcEventMessenger* fEventMessenger;
 
 		G4int              fSaveThreshold;

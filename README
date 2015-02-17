@@ -73,16 +73,25 @@ Note2) In the code (release 11) the tracking of optical photons is switched off.
 **********
 *Geometry*
 **********
+The way the geometry is constructed is object
+oriented way to construct geometry. It seperates the concept of how a volume
+is built from where it is placed. Each major volume in the geometry is defined
+as a class derived from G4PVPlacement. Right now thwrw are 2 classes: Calorimeter volume anf PMT volume.
+To place one of these volumes, simply create an instance of it with the appropriate
+rotation, translation, and mother volumes.
+
 - A tungsten block with a number of holes filled with the quartz tubes filled with a liquid scintillator.
 - The number of holes is automatically calculated from the value of pitch.
-- The quartz tubes and capillaries are placed using G4PVParametrization
 - A small gap between the tubes and tungsten block 
+
 - At the front of the calo block a thin Al mirror is placed
-- In front of the mirror there is a tungsten preshower (thickness 1X0). To remove preshower set it's material to be vacuum.
-- The PMTs are coded as well. They are square shaped. They can be switched on or off by setting the values 
-	of parameters fNx and fNy (if set to 0 PMTs will not be constructed). Dimensions and placement of PMTs have 
+
+- In front of the mirror there is a tungsten preshower (thickness 1X0).
+
+- The PMTs are coded as well. Dimensions and placement of PMTs have 
 	to be adjusted for different pitches so they do not cross the quartz tubes. 
-- Magnetic field of 3.8 T (0,0, 3.8T). Set Bz=0 if you want to switch it off or comment the call of ConstructField() in ConstructDetector() method 
+
+- Magnetic field of 3.8 T (0,0, 3.8T). 
 
 ***********************************
 *Modifying the geometry at runtime*
@@ -90,12 +99,25 @@ Note2) In the code (release 11) the tracking of optical photons is switched off.
 You can modify the geometry definition at runtime. This
 is accomplished through DetectorMessenger, a derived class of G4UImessenger.
 After changing geometry using commands from DetectorMessenger the /SPc/detector/update command must be issued to reconstruct the geometry
-with the new values. Right now there are a just 2 things you can change at the runtime
-	-dice5 or dice4 (dice5 is not coded yet!!!)
-	-pmtZDist
-I wrote this class just as a test, it works and if you need some geometry parameter to be changed at runtime 
-just add appropriate Set functions in DetectorMessenger and DetectorConstruction. 
+with the new values. Right now there are 12 things you can change at the runtime. Here are the commands 
+you can use in your macros:
+		----------------
+/SPc/detector/defaults  #create default geometry; does not take argument
+/SPc/detector/update    #update geometry; does not take argument; compulsory command if you make any change
 
+/SPc/detector/dice5 true 			# dice4 or dice5; boolian; 0 (false) is default
+/SPc/detector/pitch 2.0 mm		# size of the pitch; takes double with unit
+/SPc/detector/holeR 0.7 mm		# R of the holes; takes double with unit
+/SPc/detector/capillR 0.5 mm	# R of the quartz capillaries; takes double with unit
+/SPc/detector/coreR 0.1 mm		# R of the scintill core; takes double with unit
+/SPc/detector/calo true		 		# create a calorimeter; boolian; 1 (true) is default
+/SPc/detector/psw true				# create a preshower; boolian; 1 (true) is default
+/SPc/detector/mirror true			# create an Al mirror; boolian; 1 (true) is default
+/SPc/detector/magfield true		# switch on/of the magnetic field (3.8 T along z); boolian; 0 (false) is default
+/SPc/detector/pmts true			# create PMTs; boolian; 0 (false) is default
+/SPc/detector/nbPmts 2			# number of pmts along x and y axis; integer; 5 is default
+/SPc/detector/pswNbX0 3			# thickness of the preshower; double; in units of radiation length
+		----------------
 
 ************************
 *PMT sensitive detector*
@@ -121,7 +143,16 @@ categories for easier maintenance. Here I used GeneralPhysics, EMPhysics and Opt
 *Beam*
 ******
 I use GPS source. In the code you can choose between 3deg tilted beam and a parallel to the z axes of calo block. Look at PrimaryGeneratorAction.cc 
-Change energy of incident electrons using SetMonoEnergy(energy); 
+Change energy of incident electrons using:
+
+/gps/energy theEnergyOfIncindentPElectron GeV 	# it is important to give the energy in GeV because of the calculation of X0; In the code I have
+							 					# defined that X0 is calculated  as the value of z position (in mm) when the incindent particle
+							 					# is left with less that 1/e * incindentEnergy (in GeV!!!)
+
+To calculate X0, you have to isue the command:
+
+/SPc/cutOff theEnergyOfIncindentPElectron GeV 
+
 
 ************************
 *Histograms and ntuples*
@@ -156,16 +187,29 @@ It comes handy when you have to submit a number of jobs to run on condor.
 
 If you are looking at the things such as energy deposition in tungsten, X0 or Moliere, tracking optical photons increases the running time immensely 
 (for 1 MeV deposited in the scintillator 11500 optical photons is produced). In this case the best is to kill the optical photons as soon as they are 
-produced. You will still have information how many of them has been produced per event. To kill the optical photons go to SPcStackingAction.cc and 
-change the value of G4ClassificationOfNewTrack that is returned by ClassifyNewTrack. 
+produced. You will still have information how many of them has been produced per event. By default, the optical photons are not tracked.
+
+To switch on the tracking of the scintillation photons, in your macro, add the following command:
+
+/SPc/trackScintill true # false is default
+
 
 ***************************************
 *Optical Photons at optical boundaries*
 ***************************************
 
-If you want to track optical photons and extract information about processes at the optical boundaries in SPcSteppingAction.cc set the value of parameter 
-"scintill" to be true; Do not forget to set G4ClassificationOfNewTrack, returned by ClassifyNewTrack, in SPcStackingAction.cc to be fUrgent for scintillation 
-photons (and Cherenkov as well if you want to see what is happening with them).
+If you want to track optical photons and extract information about processes at the optical boundaries in your macro add the command;
+
+/SPc/boundaryProc true # false is default 
+
+
+Do not forget to add the command for tracking optical photons:
+
+/SPc/trackScintill true  
+
+and to remove pmts from the geometry
+
+/SPc/detector/pmts false		
 
 **********************************************
 *Measuring energy deposited in the calo-block*

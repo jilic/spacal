@@ -1,5 +1,5 @@
 #
-# Macro file for the initialization phase of "SPc.cc"
+# Macro file for the initialization phase of "LXe.cc"
 # when runing in interactive mode
 #
 # Sets some default verbose
@@ -31,8 +31,6 @@
 #    /vis/sceneHandler/attach
 # Create an empty scene and add the detector geometry to it
 /vis/drawVolume
-/vis/scene/add/axes 
-
 #
 # Store particle trajectories for visualization
 # (if too many tracks cause core dump => storeTrajectory 0)
@@ -40,7 +38,7 @@
 #
 # Add trajectories to the current scene
 # Note: This command is not necessary since the C++ method DrawTrajectory()
-#       is called in SPcEventAction::EndOfEventAction
+#       is called in LXeEventAction::EndOfEventAction
 #/vis/scene/add/trajectories
 #
 # Requests viewer to accumulate hits, tracks, etc. at end of event. 

@@ -1,4 +1,7 @@
 
+#
+/control/execute defaults.mac
+#
 /SPc/histo/name scoreTest
 /SPc/histo/event true
 /SPc/histo/pp true
@@ -6,20 +9,15 @@
 
 
 ########################################
-#
 # define scoring mesh
 #
+
 /vis/disable
-
-
 /score/create/cylinderMesh boxMesh_1
 #
 /score/mesh/cylinderSize 2.5 10. cm
 /score/mesh/translate/xyz 0. 0. -5. cm
 /score/mesh/nBin 12 1 1
-
-
-
 
 #/score/create/boxMesh boxMesh_1
 ##

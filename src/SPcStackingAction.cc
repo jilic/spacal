@@ -17,12 +17,22 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SPcStackingAction::SPcStackingAction() {}
+SPcStackingAction::SPcStackingAction():
+	follow(false) 
+{
+
+	fstackMessenger = new SPcStackingMessenger(this);
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SPcStackingAction::~SPcStackingAction() {}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void SPcStackingAction::KillOrNot(G4bool b){
+
+	follow = b;
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4ClassificationOfNewTrack SPcStackingAction::ClassifyNewTrack(const G4Track * aTrack){
@@ -31,11 +41,13 @@ G4ClassificationOfNewTrack SPcStackingAction::ClassifyNewTrack(const G4Track * a
 
 	//Count what process generated the optical photons
 	if(aTrack->GetDefinition()==G4OpticalPhoton::OpticalPhotonDefinition() && aTrack->GetParentID()>0){
-		
-			if(aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation"){
+
+		if(aTrack->GetCreatorProcess()->GetProcessName()=="Scintillation"){
 			eventInformation->IncPhotonCount_Scint();
-			return fKill;	
-			//return fUrgent;
+
+			if(follow) return fUrgent;
+			else return fKill;
+		
 		}else if(aTrack->GetCreatorProcess()->GetProcessName()=="Cerenkov"){
 			eventInformation->IncPhotonCount_Ceren();
 			return fKill;	

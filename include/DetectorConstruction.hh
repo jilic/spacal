@@ -26,65 +26,87 @@ class G4Mag_UsualEqRhs;
 class G4MagIntegratorStepper;
 class G4ChordFinder;
 class G4UniformMagField;
+class SPcPMTSD;
+class SPcScintSD;
 
-//class DetectorMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/*!
-\brief This mandatory user class defines the geometry.
-
-It is responsible for
- - Definition of material, and
- - Construction of geometry
-\sa Construct()
- */
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
 	public:
 		DetectorConstruction();
 		~DetectorConstruction();
 	public:
-		//! Construct geometry of the setup
+
 		G4VPhysicalVolume* Construct();
 		G4VPhysicalVolume* ConstructDetector();
 
-		//Functions to modify the geometry
-		void SetDiceType(G4bool );
-		void SetPMTzDistance(G4double);
-
-		//rebuild the geometry based on changes. must be called
 		void UpdateGeometry();
-		G4bool GetUpdated(){return fUpdated;}
-		//! initialize geometry parameters
 		void SetDefaults();
+		G4bool GetUpdated(){return fUpdated;}
+
+		//some methods for changing geometry
+		void   SetPitch(G4double);  
+		void   SetHoleR(G4double);  
+		void   SetCapillaryR(G4double);  
+		void   SetCoreR(G4double);  
+
+		void   SetDiceType(G4bool );
+		void   SetMagField(G4bool);  
+		void   SetMirror(G4bool);  
+		void   SetPsw(G4bool);  
+		void   SetCalo(G4bool);  
+		void   SetPmts(G4bool);  
+		void   SetNbRadLenghtsPsw(G4double);  
+		void   SetNbPmts(G4int);  
+
+		G4double   GetemCaloWidth()  { return emCaloWidth; }  
+		G4double   GetemCaloLength() { return emCaloLength; }  
+		G4double   GetCaloZ() { return emCaloLength; }
+		G4double   GetHoleR() { return holeOutherR; }  
+		G4double   GetCapillR() { return capillaryOutherR; }  
+		G4double   GetCoreR() { return coreOutherR; }  
+		G4double   GetPitch() { return pitch; }  
+		G4bool     GetDice() { return dice5; }  
+		G4double GetPmtThickness(){return fD_mtl;}
+		G4int GetNx() {return fNx;}
+		G4int GetNxy(){return fNy;}
+		
+
+		G4Material* GetVacuum(){return vacuum;}
+		G4Material* GetPmtMaterial(){return fGlass;}
+		G4Material* GetPhotocatMaterial(){return fAl;}
+		G4Material* GetCaloMaterial(){return wolfram;}
+		G4Material* GetTubeMaterial(){return quartz;}
+		G4Material* GetScintMaterial(){return ej309;}
+		G4Material* GetHoleMaterial(){return air;} 	
+		
 
 
-		//! \name some simple set & get functions
-		//@{
-		G4double      FieldValue() const { return fieldValueZ; } 
-		G4double      SetFieldValue( G4double value) { return fieldValueZ= value; }  
 
-		G4double      GetCaloSizeX() { return emCaloWidth; }  
-		G4double      GetCaloSizeY() { return emCaloWidth; }  
-		G4double      GetCaloZ() { return emCaloLength; }  
-		//@}
 	private:
 		DetectorMessenger* fDetectorMessenger;
 		void DefineMaterials();
-		G4VPhysicalVolume* ConstructEMCalo();
-		void ConstructTubes();
-		void ConstructTubesPARAM();
-		void PlaceTubes();
 		void ConstructField();
-		void ConstructPMTs();
-		void SetVisibilityAttributes();
 
 	private:
 		G4bool fUpdated;	
 
-		//! \name global parameters
-		//@{
+		//solids and logic
+		G4Box * worldSolid;
+		G4Box * mirrorSolid;
+		G4Box * preshowerSolid;
+
+		G4LogicalVolume * worldLogic;
+		G4LogicalVolume * mirrorLogic;
+		G4LogicalVolume * preshowerLogic;
+
+		G4VPhysicalVolume* worldPhys;
+		G4VPhysicalVolume* mirrorPhys;
+		G4VPhysicalVolume* preshowerPhys;
+		
+		//dimensions
 		G4double halfWorldLength;
 		G4double emCaloLength;
 		G4double emCaloWidth;
@@ -101,13 +123,15 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		G4int fNx;
 		G4int fNy;
 		G4double fD_mtl; // pmt's tickness
-		G4double pmtZ;
-		G4bool dice5;
-		G4bool param;
-		//@}
+		//
+		 G4bool dice5;
+		 G4bool fpresh;
+		 G4bool fpmts;
+		 G4bool fmirror;
+		 G4bool ffield;
+		 G4bool fcalorimeter;
 
-		//! \name Materials
-		//@{
+		// Materials
 		G4Material* air;
 		G4Material* vacuum;
 		G4Material* wolfram;
@@ -116,58 +140,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 		G4Material* fGlass;
 		G4Material* fAl;
 		G4MaterialPropertiesTable* ej309_mt;
-		//@}
-
-
-		//! \name Solids
-		//@{
-		G4Box* pmtSolid;
-		G4Box* photocathSolid;
-		//@}
-
-		//! \name Logic volume
-		//@{
-		G4LogicalVolume * worldLogic;
-		G4LogicalVolume * mirrorLogic;
-		G4LogicalVolume * preshowerLogic;
-		G4LogicalVolume * caloLogic;
-		G4LogicalVolume * holeLogic;
-		G4LogicalVolume * capillaryLogic;
-		G4LogicalVolume * coreLogic;
-		G4LogicalVolume * pmtLogic;
-		G4LogicalVolume * photocathLogic;
-		//@}
-
-		//! \name Physical volume
-		//@{
-		G4VPhysicalVolume* holePhys;
-		G4VPhysicalVolume* mirrorPhys;
-		G4VPhysicalVolume* preshowerPhys;
-		G4VPhysicalVolume* corePhys;
-		G4VPhysicalVolume* capillaryPhys;
-		G4VPhysicalVolume* caloPhys;
-		//@}
-
-
-		//! \name Visualisation attribute
-		//@{
-		G4VisAttributes* inVisAtt;
-		G4VisAttributes* whiteVisAtt;
-		G4VisAttributes* dkgreyVisAtt;
-		G4VisAttributes* medyelVisAtt;
-		G4VisAttributes* yellowVisAtt ;
-		G4VisAttributes* redVisAtt;
-		G4VisAttributes* greenVisAtt;
-		G4VisAttributes* blueVisAtt;
-		G4VisAttributes* ograyVisAtt;
-		//@}
-
-		//! \name Sensitive Detectors
-		//@{
-		static SPcScintSD* fScint_SD;
-		static SPcPMTSD* fPmt_SD;
-		//@}
-
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

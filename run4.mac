@@ -1,5 +1,7 @@
 ########################################
 #
+/control/execute defaults.mac
+
 # define cylindrical scoring mesh
 #
 /score/create/cylinderMesh boxMesh_1

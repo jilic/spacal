@@ -3,7 +3,7 @@
 # GNUmakefile for LXe example.
 # --------------------------------------------------------------
 
-name := LXe
+name := SPc
 G4TARGET := $(name)
 G4EXLIB := true
 

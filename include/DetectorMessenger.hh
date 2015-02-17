@@ -31,11 +31,20 @@ class DetectorMessenger: public G4UImessenger
 
 		DetectorConstruction*		fDetector;
 		G4UIdirectory*              fDetectorDir;
-		G4UIcmdWithADoubleAndUnit*  fPmtZDistanceCmd;
 		G4UIcmdWithABool*           fDiceCmd;
 		G4UIcommand*                fUpdateCmd;
 		G4UIcommand*                fDefaultsCmd;
-
+		G4UIcmdWithADoubleAndUnit*  fpitchCmd;
+		G4UIcmdWithADoubleAndUnit*  fholeCmd;
+		G4UIcmdWithADoubleAndUnit*  fcapillCmd;
+		G4UIcmdWithADoubleAndUnit*  fcoreCmd;
+		G4UIcmdWithABool*           fcaloCmd;
+		G4UIcmdWithABool*           fpswCmd;
+		G4UIcmdWithABool*           fmirrorCmd;
+		G4UIcmdWithABool*           ffieldCmd;
+		G4UIcmdWithABool*           fpmtsCmd;
+		G4UIcmdWithAnInteger* 		fNoPmtsCmd;
+		G4UIcmdWithADouble* 		fpswNoRadLenghtsCmd;
 };
 
 #endif

@@ -85,21 +85,21 @@ int main(int argc, char** argv)
 	// set a HistoManager
 	HistoManager*  histo = new HistoManager();
 
-	runManager->SetUserAction(new PrimaryGeneratorAction(detector));
+	runManager->SetUserAction(new PrimaryGeneratorAction);
 	
 	runManager->SetUserAction(new SPcStackingAction);
 	
 	SPcRunAction* run_action = new SPcRunAction(histo);
 	runManager->SetUserAction(run_action);
   
-	SPcEventAction* evt_action = new SPcEventAction(run_action,histo, detector);
+	SPcEventAction* evt_action = new SPcEventAction(run_action,histo);
 	runManager->SetUserAction(evt_action);
 	
 	runManager->SetUserAction(new SPcSteppingAction(run_action,histo));
 	
 	runManager->SetUserAction(new SPcTrackingAction);
 
-	runManager->Initialize();
+	//runManager->Initialize();
 
 #ifdef G4VIS_USE
 	G4VisManager* visManager = new G4VisExecutive;

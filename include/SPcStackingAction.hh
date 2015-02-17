@@ -8,6 +8,7 @@
 
 #include "globals.hh"
 #include "G4UserStackingAction.hh"
+#include "SPcStackingMessenger.hh"
 
 class SPcStackingAction : public G4UserStackingAction
 {
@@ -19,8 +20,11 @@ class SPcStackingAction : public G4UserStackingAction
     virtual G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track* aTrack);
     virtual void NewStage();
     virtual void PrepareNewEvent();
- 
+	void KillOrNot(G4bool b); 
   private:
+		SPcStackingMessenger* fstackMessenger;
+		G4bool follow;
+
 };
 
 #endif

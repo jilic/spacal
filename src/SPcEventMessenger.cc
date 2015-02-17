@@ -30,13 +30,11 @@ SPcEventMessenger::SPcEventMessenger(SPcEventAction* event)
 
   fForceDrawPhotonsCmd=new G4UIcmdWithABool("/SPc/forceDrawPhotons",this);
   fForceDrawPhotonsCmd->SetGuidance("Force drawing of photons.");
-  fForceDrawPhotonsCmd
-    ->SetGuidance("(Higher priority than /SPc/forceDrawNoPhotons)");
+  fForceDrawPhotonsCmd->SetGuidance("(Higher priority than /SPc/forceDrawNoPhotons)");
 
   fForceDrawNoPhotonsCmd=new G4UIcmdWithABool("/SPc/forceDrawNoPhotons",this);
   fForceDrawNoPhotonsCmd->SetGuidance("Force no drawing of photons.");
-  fForceDrawNoPhotonsCmd
-    ->SetGuidance("(Lower priority than /SPc/forceDrawPhotons)");
+  fForceDrawNoPhotonsCmd->SetGuidance("(Lower priority than /SPc/forceDrawPhotons)");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

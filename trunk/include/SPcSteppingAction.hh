@@ -4,10 +4,11 @@
 	@date   Summer 2014
 */
 #ifndef SPcSteppingAction_H
-#define SPcSteppingACtion_H 1
+#define SPcSteppingAction_H 1
 
 #include "globals.hh"
 #include "G4UserSteppingAction.hh"
+#include "SPcSteppingMessenger.hh"
 
 #include "G4OpBoundaryProcess.hh"
 
@@ -24,14 +25,16 @@ class SPcSteppingAction : public G4UserSteppingAction
 		SPcSteppingAction(SPcRunAction*, HistoManager* );
 		virtual ~SPcSteppingAction();
 		virtual void UserSteppingAction(const G4Step*);
-
+		void TrackScintill(G4bool);
+		void SetCutOff(G4double);
 
 	private:
 		
+		SPcSteppingMessenger* fstepMessenger;
 		SPcRunAction*    fRunAct;
 		HistoManager* fHistoManager;
-
-		SPcSteppingMessenger* fSteppingMessenger;
+		G4bool fscintill;
+		G4double fcutOff;
 		G4OpBoundaryProcessStatus fExpectedNextStatus;
 };
 

@@ -1,0 +1,20 @@
+
+# Changing detector geometry at runtime
+
+/SPc/detector/defaults  #create default geometry; does not take argument
+/SPc/detector/update    #update geometry; does not take argument; compulsory command if you make any change
+
+/SPc/detector/dice5 1 			# dice4 or dice5; boolian; 0 (false) is default
+/SPc/detector/pitch 2.0 mm		# size of the pitch; takes double with unit
+/SPc/detector/holeR 0.7 mm		# R of the holes; takes double with unit
+/SPc/detector/capillR 0.5 mm	# R of the quartz capillaries; takes double with unit
+/SPc/detector/coreR 0.1 mm		# R of the scintill core; takes double with unit
+/SPc/detector/calo 1			# create a calorimeter; boolian; 1 (true) is default
+/SPc/detector/psw 0				# create a preshower; boolian; 1 (true) is default
+/SPc/detector/mirror 0			# create an Al mirror; boolian; 1 (true) is default
+/SPc/detector/magfield 0		# switch on/of the magnetic field (3.8 T along z); boolian; 0 (false) is default
+/SPc/detector/pmts 0			# create PMTs; boolian; 1 (true) is default
+/SPc/detector/nbPmts 2			# number of pmts along x and y axis; integer; 5 is default
+/SPc/detector/pswNbX0 3			# thickness of the preshower; double; in units of radiation length
+
+

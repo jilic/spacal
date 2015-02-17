@@ -1,3 +1,4 @@
+/control/execute defaults.mac
 
 /SPc/histo/name scoreTest
 /SPc/histo/event true

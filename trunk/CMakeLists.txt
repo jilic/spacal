@@ -51,6 +51,8 @@ target_link_libraries(SPc ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} )
 # relies on these scripts being in the current working directory.
 #
 set(SPc_SCRIPTS
+	detector_commands.mac
+	defaults.mac
 	beam_circ.mac
 	beam_point_kupa.mac
 	comm_scoring.mac
@@ -58,8 +60,6 @@ set(SPc_SCRIPTS
 	run.mac
 	run4.mac
 	test1.mac
-	test2.mac
-	test3.mac
 	vis.mac
     )
 

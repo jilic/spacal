@@ -4,6 +4,7 @@
 	@date   Summer 2014
 */
 #include "SPcSteppingAction.hh"
+#include "SPcSteppingMessenger.hh"
 #include "SPcEventAction.hh"
 #include "SPcTrackingAction.hh"
 #include "SPcTrajectory.hh"
@@ -35,16 +36,36 @@
 
 SPcSteppingAction::SPcSteppingAction(SPcRunAction* run, HistoManager* histo):
 	fRunAct(run),
-	fHistoManager(histo)
+	fHistoManager(histo),
+	fscintill(false),
+	fcutOff(7.358* GeV)
 {
+	fstepMessenger = new SPcSteppingMessenger(this);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SPcSteppingAction::~SPcSteppingAction() {}
+		HistoManager* fHistoManager;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void SPcSteppingAction::TrackScintill(G4bool b){
+	fscintill = b;
+}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void SPcSteppingAction::SetCutOff(G4double c){
+	if(c<0){
+		G4cout << "***********Proposed cutOff is out of range. it should be greather than 0" <<G4endl;	
+		G4cout << "*********** and equal to the energy of the incindent electron" <<G4endl;	
+
+	}else {
+		fcutOff =c/exp(1) /GeV;
+		std::cout<<"fcutOff = "<<fcutOff<<std::endl;
+	}
+
+}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 
 
@@ -90,7 +111,6 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 	}
 
 	// 1) EXTRACT some info about the PRIMARY track
-	G4double cutOff = 7.358;
 	if( fHistoManager->IsPPAna() && theTrack->GetParentID()==0){
 
 
@@ -111,7 +131,7 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 		G4double tl			= theTrack->GetTrackLength() / mm;
 
 		G4bool fnd =eventInformation->isFound();
-		if(!fnd && kinen<= cutOff){
+		if(!fnd && kinen<= fcutOff /GeV){
 
 			eventInformation->SetFound(true);
 			eventInformation->X0measurement(zc);
@@ -141,8 +161,6 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 		fHistoManager->FillHisto(2, zc,1);
 
 	}
-
-
 	//2)  PARTICLES LEAVING the calorimeter
 	if(fHistoManager->IsLostAna() && thePostPV->GetName()=="pWorld" && thePrePoint->GetStepStatus()== fGeomBoundary){
 
@@ -180,8 +198,7 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
                                                                                                                                                     //---------
 */
 	// 3) PMT hits , absorbtion  and other info about OpticalPhotons....
-	bool scintill = false;
-	if(scintill){
+	if(fscintill){
 
 		//3) Scintillation
 		if(particleType==G4OpticalPhoton::OpticalPhotonDefinition()){
@@ -189,20 +206,19 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 
 			if( name == "Scintillation" ) {
 
-			if (theStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary && thePostPV->GetName()=="pWorld"){ 
-				eventInformation->IncScintExit();
-			
-				if(theStep->GetPostStepPoint()->GetPosition().z() > -1)eventInformation->IncPosScintExit();
-			}
-			
-			//Kill photons entering world
+				if (theStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary && thePostPV->GetName()=="pWorld"){ 
+					eventInformation->IncScintExit();
+
+					if(theStep->GetPostStepPoint()->GetPosition().z() > -1)eventInformation->IncPosScintExit();
+				}
+
+				//Kill photons entering world
 				if(thePostPV->GetName()=="pWorld"){
 					theTrack->SetTrackStatus(fStopAndKill);
 				}
 
 				//Was the photon absorbed by the absorption process
 				if(thePostPoint->GetProcessDefinedStep()->GetProcessName()=="OpAbsorption"){
-					//std::cout<<"thePostPV->GetName()="<<thePostPV->GetName()<<std::endl;
 					eventInformation->IncAbsorption();
 					trackInformation->AddTrackStatusFlag(absorbed);
 				}
@@ -228,18 +244,13 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 							{
 								eventInformation->IncBoundaryAbsorption();
 								trackInformation->AddTrackStatusFlag(boundaryAbsorbed);
-								//std::cout<<"Absorption"<<std::endl;
 								break;
 							}
 						case Detection:
 							std::cout<<"Detection"<<std::endl;
 							break;
 						case FresnelReflection:
-							//std::cout<<"FresnelReflection"<<std::endl;
-							//break;
 						case TotalInternalReflection:
-							//std::cout<<"TotalInternalReflection"<<std::endl;
-							//break;
 						case LambertianReflection:
 						case LobeReflection:
 						case SpikeReflection:

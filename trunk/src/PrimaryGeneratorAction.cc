@@ -4,7 +4,6 @@
 	@date   Summer 2014
 */
 #include "PrimaryGeneratorAction.hh"
-#include "DetectorConstruction.hh"
 
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
@@ -14,8 +13,7 @@
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* myDC):
-	myDetector(myDC)
+PrimaryGeneratorAction::PrimaryGeneratorAction()
 {
   gun = InitializeGPS();  
 }
@@ -47,7 +45,7 @@ G4VPrimaryGenerator* PrimaryGeneratorAction::InitializeGPS()
 	// set energy distribution
 	G4SPSEneDistribution *eneDist = gps->GetCurrentSource()->GetEneDist() ;
 	eneDist->SetEnergyDisType("Mono"); // or gauss
-	eneDist->SetMonoEnergy(20.0*GeV);
+	eneDist->SetMonoEnergy(200.0*MeV);
 
 	// set position distribution
 	G4SPSPosDistribution *posDist = gps->GetCurrentSource()->GetPosDist();
@@ -74,7 +72,6 @@ G4VPrimaryGenerator* PrimaryGeneratorAction::InitializeGPS()
 
 	//****
 
-	std::cout<<"myDetector->GetCaloZ()/cm = " << myDetector->GetCaloZ()/cm<<std::endl;	
 	std::cout<<"Beam position (y, z) = " << positionY <<", "<<positionZ<< std::endl;	
 	
 	

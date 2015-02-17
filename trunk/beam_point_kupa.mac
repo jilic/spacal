@@ -1,7 +1,6 @@
 ########################################
 #
-
-# the beam is 20 cm from the calo
+/control/execute defaults.mac
 
 
 /SPc/setRun 1

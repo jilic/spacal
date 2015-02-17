@@ -31,10 +31,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-SPcEventAction::SPcEventAction(SPcRunAction* run, HistoManager* histo, DetectorConstruction* myDetector):
+SPcEventAction::SPcEventAction(SPcRunAction* run, HistoManager* histo):
 	fRunAct(run),
 	fHistoManager(histo),
-	fDetector(myDetector),
 	fSaveThreshold(0),
 	fScintCollID(-1),
 	fPMTCollID(-1),
@@ -92,11 +91,6 @@ void SPcEventAction::EndOfEventAction(const G4Event* anEvent){
 	}
 
 
-
-
-
-
-
 	SPcScintHitsCollection* scintHC = 0;
 	SPcPMTHitsCollection* pmtHC = 0;
 	G4HCofThisEvent* hitsCE = anEvent->GetHCofThisEvent();
@@ -142,7 +136,6 @@ void SPcEventAction::EndOfEventAction(const G4Event* anEvent){
 			G4cout << "\tTotal energy deposition in scintillator : "<< eventInformation->GetEDep() / keV << " (keV)" << G4endl;
 		}
 	}
-
 	//Hits in PMTs
 	if(pmtHC){
 		G4int pmts=pmtHC->entries();
@@ -161,7 +154,6 @@ void SPcEventAction::EndOfEventAction(const G4Event* anEvent){
 
 		pmtHC->DrawAllHits();
 	}
-
 	if(fVerbose>0){
 		//End of event output. later to be controlled by a verbose level
 		G4cout << "\tNumber of photons produced by scintillation in this event : "

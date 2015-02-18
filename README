@@ -75,7 +75,7 @@ This will run the macro beam_circ.mac.
 The way the geometry is constructed is object
 oriented way to construct geometry. It seperates the concept of how a volume
 is built from where it is placed. Each major volume in the geometry is defined
-as a class derived from G4PVPlacement. Right now thwrw are 2 classes: Calorimeter volume anf PMT volume.
+as a class derived from G4PVPlacement. Right now there are 2 classes: Calorimeter volume anf PMT volume.
 To place one of these volumes, simply create an instance of it with the appropriate
 rotation, translation, and mother volumes.
 
@@ -104,16 +104,16 @@ you can use in your macros:
 /SPc/detector/defaults  #create default geometry; does not take argument
 /SPc/detector/update    #update geometry; does not take argument; compulsory command if you make any change
 
-/SPc/detector/dice5 true 			# dice4 or dice5; boolian; 0 (false) is default
+/SPc/detector/dice5 true 			# dice4 or dice5; boolean; 0 (false) is default
 /SPc/detector/pitch 2.0 mm		# size of the pitch; takes double with unit
 /SPc/detector/holeR 0.7 mm		# R of the holes; takes double with unit
 /SPc/detector/capillR 0.5 mm	# R of the quartz capillaries; takes double with unit
 /SPc/detector/coreR 0.1 mm		# R of the scintill core; takes double with unit
-/SPc/detector/calo true		 		# create a calorimeter; boolian; 1 (true) is default
-/SPc/detector/psw true				# create a preshower; boolian; 1 (true) is default
-/SPc/detector/mirror true			# create an Al mirror; boolian; 1 (true) is default
-/SPc/detector/magfield true		# switch on/of the magnetic field (3.8 T along z); boolian; 0 (false) is default
-/SPc/detector/pmts true			# create PMTs; boolian; 0 (false) is default
+/SPc/detector/calo true		 		# create a calorimeter; boolean; 1 (true) is default
+/SPc/detector/psw true				# create a preshower; boolean; 1 (true) is default
+/SPc/detector/mirror true			# create an Al mirror; boolean; 1 (true) is default
+/SPc/detector/magfield true		# switch on/of the magnetic field (3.8 T along z); boolean; 0 (false) is default
+/SPc/detector/pmts true			# create PMTs; boolean; 0 (false) is default
 /SPc/detector/nbPmts 2			# number of pmts along x and y axis; integer; 5 is default
 /SPc/detector/pswNbX0 3			# thickness of the preshower; double; in units of radiation length
 		----------------

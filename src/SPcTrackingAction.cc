@@ -52,6 +52,8 @@ void SPcTrackingAction::PostUserTrackingAction(const G4Track* aTrack ){
 	if(aTrack->GetDefinition()==G4OpticalPhoton::OpticalPhotonDefinition()){
 
 		if(trackInformation->GetTrackStatus()&hitPMT) trajectory->SetDrawTrajectory(true);
+
+		//if(hitPMT) trajectory->SetDrawTrajectory(true);
 	}
 	else if(aTrack->GetParentID()==0){
 		trajectory->SetDrawTrajectory(true);

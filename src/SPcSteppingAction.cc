@@ -247,8 +247,16 @@ void SPcSteppingAction::UserSteppingAction(const G4Step * theStep){
 								break;
 							}
 						case Detection:
-							std::cout<<"Detection"<<std::endl;
+							{
+							//Triger sensitive detector manually since photon is
+							//absorbed but status was Detection
+							G4SDManager* SDman = G4SDManager::GetSDMpointer();
+							G4String sdName="/SPcDet/pmtSD";
+							SPcPMTSD* pmtSD = (SPcPMTSD*)SDman->FindSensitiveDetector(sdName);
+							if(pmtSD)pmtSD->ProcessHits_constStep(theStep,NULL);
+							trackInformation->AddTrackStatusFlag(hitPMT);
 							break;
+							}
 						case FresnelReflection:
 						case TotalInternalReflection:
 						case LambertianReflection:
